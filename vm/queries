@@ -1,0 +1,36 @@
+╔══════════╦══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║          ║                                                       QUERY                                                      ║
+║          ╠═══════════╦═══════════╦════════════╦════════════╦════════════╦════════════╦════════════╦════════════╦════════════╣
+║          ║     q1    ║    q1-2   ║    q1-3    ║    q1-4    ║    q1-5    ║    q1-6    ║    q1-7    ║    q1-8    ║    q1-9    ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  mapper  ║   AEPCM   ║    EPCM   ║    EPCM    ║    EPCM    ║    EPCM    ║      -     ║      -     ║      -     ║      -     ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║ feedback ║    yes    ║     -     ║      -     ║      -     ║      -     ║      -     ║      -     ║      -     ║      -     ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  updater ║    PSU    ║    PSU    ║    PSUT    ║     PSU    ║    PSUT    ║    PSMU    ║    PSMUT   ║    PSMU    ║    PSMUT   ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  ranker  ║    PRS    ║    PRS    ║     PRS    ║    PRSS    ║    PRSS    ║     PRS    ║     PRS    ║    PRSS    ║    PRSS    ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  merger  ║    PRMS   ║    PRMS   ║    PRMS    ║    PRMSS   ║    PRMSS   ║    PRMS    ║    PRMS    ║    PRMSS   ║    PRMSS   ║
+╠══════════╩═══════════╩═══════════╩════════════╩════════════╩════════════╩════════════╩════════════╩════════════╩════════════╣
+║                                                           seconds                                                           ║
+║                                                     10^(-4)seconds/tuple                                                    ║
+╠══════════╦═══════════╦═══════════╦════════════╦════════════╦════════════╦════════════╦════════════╦════════════╦════════════╣
+║   tiny   ║ xxxxx.xxx ║ xxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║ xxxxxx.xxx ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  xsmall  ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║   small  ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  medium  ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║   large  ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+╠══════════╬═══════════╬═══════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣
+║  xlarge  ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+║          ║ xxxxx.xxx ║ xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║  xxxxx.xxx ║
+╚══════════╩═══════════╩═══════════╩════════════╩════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝

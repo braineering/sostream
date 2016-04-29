@@ -1,0 +1,11 @@
+.*
+*~
+_ignore/
+target/
+output/
+query/*.jar
+dataset/dist/
+
+q*.txt
+performance.txt
+log.txt
