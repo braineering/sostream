@@ -121,8 +121,8 @@ function configureLocal {
 }
 
 function configureRemote {
-    echo "[DEBS]> CONFIGURE-APP: configuring Bitbucket repo ..."
-    #checkBitbucket
+    echo "[DEBS]> CONFIGURE-APP: configuring Github repo ..."
+    checkGithub
     echo "[DEBS]> CONFIGURE-APP: read access to repo configured"
 
     echo "[DEBS]> CONFIGURE-APP: cleaning workspace ..."
