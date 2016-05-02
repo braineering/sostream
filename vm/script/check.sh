@@ -351,12 +351,12 @@ function checkEnvironmentVariable {
 SSH_DIR="$HOME/.ssh"
 SSH_AUTHORIZED_KEYS_FILE="$SSH_DIR/authorized_keys"
 
-function checkSSHBitbucket {
-    SSH_DEPLOY_KEY_MATCH="3-core/acm-debs-2016-solution: debs@debian"
-    if [[ $(ssh -T -oStrictHostKeyChecking=no git@bitbucket.org | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
+function checkSSHGithub {
+    SSH_DEPLOY_KEY_MATCH="Hi 3Cores"
+    if [[ $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
         echo "[DEBS]> CHECK: SSH: ensured read access to repo"
     else
-        echo "[DEBS]> CHECK: SSH: 1 problem(s) found: cannot read Bitbucket repo"
+        echo "[DEBS]> CHECK: SSH: 1 problem(s) found: cannot read Github repo"
         PRBLMS=$(($PRBLMS + 1)) 
     fi
 }
@@ -458,8 +458,8 @@ checkEnvironmentVariable "REDIS_HOME" "$REDISLAB_DIR/$REDIS_DIR"
 echo "[DEBS]> CHECK: VAR: environment variables checked"
 partialCheckResult "VAR"
 
-echo "[DEBS]> CHECK: SSH: checking read access to Bitbucket repo ..."
-#checkSSHBitbucket
+echo "[DEBS]> CHECK: SSH: checking read access to Github repo ..."
+checkSSHGithub
 echo "[DEBS]> CHECK: SSH: read access to Bitbucket repo checked"
 
 if [ "$ENVIRONMENT" == "vbox" ]; then 

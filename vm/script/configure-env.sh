@@ -377,16 +377,17 @@ function configureSSHDEBS {
     cat $SSH_DEBS_KEY_FILE >> $SSH_AUTHORIZED_KEYS_FILE
 }
 
-function configureSSHBitbucket {
-    SSH_BITBUCKET_KEY="$SSH_DIR/id_rsa_bitbucket"
-    SSH_BITBUCKET_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/id_rsa_bitbucket"
-    SSH_DEPLOY_GIT_REPO="git@bitbucket.org:3Cores/sostream"
-    SSH_DEPLOY_KEY_MATCH="3Cores/sostream: debs@debian"
+function configureSSHGithub {
+    SSH_GITHUB_KEY_NAME="id-rsa-3cores-sostream"
+    SSH_GITHUB_KEY="$SSH_DIR/$SSH_GITHUB_KEY_NAME"
+    SSH_GITHUB_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/$SSH_GITHUB_KEY_NAME"
+    SSH_DEPLOY_GIT_REPO="git@github.com:3Cores/sostream"
+    SSH_DEPLOY_KEY_MATCH="Hi 3Cores"
     
-    SSH_CONFIG="Host bitbucket.org\n\tIdentityFile $SSH_BITBUCKET_KEY"
+    SSH_CONFIG="Host github.com\n\tIdentityFile $SSH_GITHUB_KEY"
 
-    if [[ $(ssh -T -oStrictHostKeyChecking=no git@bitbucket.org | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
-        echo "[DEBS]> CONFIGURE-ENV: cannot read Bitbucket repo"
+    if [[ $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
+        echo "[DEBS]> CONFIGURE-ENV: cannot read Github repo"
     else
         echo "[DEBS]> CONFIGURE-ENV: configuring SSH ..."
 
@@ -394,18 +395,18 @@ function configureSSHBitbucket {
             mkdir $SSH_DIR
         fi
 
-        if [ ! -f $SSH_BITBUCKET_KEY ]; then
-            wget $SSH_BITBUCKET_KEY_URL -O $SSH_BITBUCKET_KEY
-            wget $SSH_BITBUCKET_KEY_URL.pub -O $SSH_BITBUCKET_KEY.pub
+        if [ ! -f $SSH_GITHUB_KEY ]; then
+            wget $SSH_GITHUB_KEY_URL -O $SSH_GITHUB_KEY
+            wget $SSH_GITHUB_KEY_URL.pub -O $SSH_GITHUB_KEY.pub
         fi
 
-        chmod 400 $SSH_BITBUCKET_KEY
-        chmod 400 $SSH_BITBUCKET_KEY.pub
+        chmod 400 $SSH_GITHUB_KEY
+        chmod 400 $SSH_GITHUB_KEY.pub
 
-        echo -e "Host bitbucket.org\n\tIdentityFile $SSH_BITBUCKET_KEY" >> $SSH_CONFIG_FILE
+        echo -e $SSH_CONFIG >> $SSH_CONFIG_FILE
 
         ATTEMPTS=1
-        while [[ ! $(ssh -T -oStrictHostKeyChecking=no git@bitbucket.org | grep "$SSH_DEPLOY_KEY_MATCH") ]] && [ ATTEMPTS -le 3 ]; do
+        while [[ ! $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]] && [ ATTEMPTS -le 3 ]; do
             echo "[DEBS]> CONFIGURE-ENV: waiting for connection (attempt $ATTEMPTS) ..."
             sleep 1
             ATTEMPTS=$((ATTEMPTS + 1))
@@ -496,8 +497,8 @@ if [ "$ENVIRONMENT" == "vbox" ]; then
     echo "[DEBS]> CONFIGURE-ENV: SSH for DEBS access configured"
 fi
 
-echo "[DEBS]> CONFIGURE-ENV: configuring Bitbucket repo ..."
-#configureSSHBitbucket
+echo "[DEBS]> CONFIGURE-ENV: configuring Github repo ..."
+configureSSHGithub
 echo "[DEBS]> CONFIGURE-ENV: read access to repo configured"
 
 echo "[DEBS]> CONFIGURE-ENV: VAR: configuring environment variables ..."
