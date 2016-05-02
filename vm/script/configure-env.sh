@@ -287,7 +287,7 @@ function installRedis {
 # DATASET
 #**************************************************************************************************
 function downloadDataset {
-    DATASET_URL="https://s3-eu-west-1.amazonaws.com/debs-3cores/dataset.tar.gz"
+    DATASET_URL="https://s3-eu-west-1.amazonaws.com/3cores/sostream/dataset/dataset.tar.gz"
     DATASET_SRC="dataset.tar.gz"
     DATASET_DST="$HOME/dataset"
 
@@ -352,7 +352,7 @@ function initSSH {
 function configureSSHDevelopers {
     SSH_LOCALHOST_KEY="id-rsa-gmarciani@debs-dev.pub"
     SSH_LOCALHOST_KEY_FILE="$SSH_DIR/$SSH_LOCALHOST_KEY"
-    SSH_LOCALHOST_KEY_URL="http://gmarciani.com/workspace/debs-2016/ssh/$SSH_LOCALHOST_KEY"
+    SSH_LOCALHOST_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/$SSH_LOCALHOST_KEY"
 
     if [ ! -d $SSH_DIR ]; then
         mkdir $SSH_DIR
@@ -366,7 +366,7 @@ function configureSSHDevelopers {
 function configureSSHDEBS {
     SSH_DEBS_KEY="id-rsa-debs.pub"
     SSH_DEBS_KEY_FILE="$SSH_DIR/$SSH_DEBS_KEY"
-    SSH_DEBS_KEY_URL="http://gmarciani.com/workspace/debs-2016/ssh/$SSH_DEBS_KEY"
+    SSH_DEBS_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/$SSH_DEBS_KEY"
 
     if [ ! -d $SSH_DIR ]; then
         mkdir $SSH_DIR
@@ -377,11 +377,11 @@ function configureSSHDEBS {
     cat $SSH_DEBS_KEY_FILE >> $SSH_AUTHORIZED_KEYS_FILE
 }
 
-function configureSSHBitbucket {    
+function configureSSHBitbucket {
     SSH_BITBUCKET_KEY="$SSH_DIR/id_rsa_bitbucket"
-    SSH_BITBUCKET_KEY_URL="http://gmarciani.com/workspace/debs-2016/ssh/id_rsa_bitbucket"
-    SSH_DEPLOY_GIT_REPO="git@bitbucket.org:3-core/acm-debs-2016-solution"
-    SSH_DEPLOY_KEY_MATCH="3-core/acm-debs-2016-solution: debs@debian"
+    SSH_BITBUCKET_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/id_rsa_bitbucket"
+    SSH_DEPLOY_GIT_REPO="git@bitbucket.org:3Cores/sostream"
+    SSH_DEPLOY_KEY_MATCH="3Cores/sostream: debs@debian"
     
     SSH_CONFIG="Host bitbucket.org\n\tIdentityFile $SSH_BITBUCKET_KEY"
 
@@ -497,7 +497,7 @@ if [ "$ENVIRONMENT" == "vbox" ]; then
 fi
 
 echo "[DEBS]> CONFIGURE-ENV: configuring Bitbucket repo ..."
-configureSSHBitbucket
+#configureSSHBitbucket
 echo "[DEBS]> CONFIGURE-ENV: read access to repo configured"
 
 echo "[DEBS]> CONFIGURE-ENV: VAR: configuring environment variables ..."

@@ -60,10 +60,10 @@ function deinit {
 #**************************************************************************************************
 # BITBUCKET
 #**************************************************************************************************
-function checkBitbucket {
-    SSH_DEPLOY_KEY_MATCH="3-core/acm-debs-2016-solution: debs@debian"
+function checkGithub {
+    SSH_DEPLOY_KEY_MATCH="3Cores/sostream: debs@debian"
 
-    if [[ ! $(ssh -T -oStrictHostKeyChecking=no git@bitbucket.org | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
+    if [[ ! $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
         echo "[DEBS]> CONFIGURE-APP: cannot read Bitbucket repo. Please, run again configure-env.sh $SRC $BRANCH"
         exit -1
     fi
@@ -89,7 +89,7 @@ function cleanProject {
 }
 
 function cloneProject {
-    SSH_GIT_REPO="git@bitbucket.org:3-core/acm-debs-2016-solution.git"
+    SSH_GIT_REPO="git@github.com:3Cores/sostream.git"
 
     if [ -d $PROJECT_DIR ]; then
         rm -rf $PROJECT_DIR
@@ -122,7 +122,7 @@ function configureLocal {
 
 function configureRemote {
     echo "[DEBS]> CONFIGURE-APP: configuring Bitbucket repo ..."
-    checkBitbucket
+    #checkBitbucket
     echo "[DEBS]> CONFIGURE-APP: read access to repo configured"
 
     echo "[DEBS]> CONFIGURE-APP: cleaning workspace ..."

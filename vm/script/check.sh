@@ -459,7 +459,7 @@ echo "[DEBS]> CHECK: VAR: environment variables checked"
 partialCheckResult "VAR"
 
 echo "[DEBS]> CHECK: SSH: checking read access to Bitbucket repo ..."
-checkSSHBitbucket
+#checkSSHBitbucket
 echo "[DEBS]> CHECK: SSH: read access to Bitbucket repo checked"
 
 if [ "$ENVIRONMENT" == "vbox" ]; then 
