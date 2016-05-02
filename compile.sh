@@ -50,7 +50,7 @@ function deinit {
 # COMPILATION
 #**************************************************************************************************
 function compileQueries {
-	JAR_NAME="debs-1.0.0.jar"
+	JAR_NAME="sostream-1.0.0.jar"
 	POM_FILE="$WSDIR/pom.xml"	
 
 	echo "[DEBS]> COMPILE: compiling queries: $@ ..."

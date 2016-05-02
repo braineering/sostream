@@ -16,7 +16,6 @@ public class CustomTimestamper<T extends Chronological> implements AssignerWithP
 
 	@Override
 	public Watermark getCurrentWatermark() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

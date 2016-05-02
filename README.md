@@ -102,31 +102,25 @@ Start the VM.
 
 If you are in VB, click on Devices>Insert Guest Additions CD image.
 
-Download and run the *environment configuration* script:
+Download the configuration scripts:
 
->wget http://gmarciani.com/workspace/debs-2016/script/configure-env.sh
+>wget http://gmarciani.com/workspace/sostream/script/{configure-env.sh,configure-app.sh,check.sh}
 
->chmod +x configure-env.sh
+>chmod +x configure-env.sh configure-app.sh check.sh
+
+Run the *environment configuration* script:
 
 >./configure-env.sh {vbox|aws}
 
 Reboot your system.
 
-Download and run the *app configuration* script to configure/update the project:
-
->wget http://gmarciani.com/workspace/debs-2016/script/configure-app.sh
-
->chmod +x configure-app.sh
+Run the *app configuration* script:
 
 >./configure-app.sh {vbox|aws} BRANCH-NAME
 
 where *BRANCH-NAME* is the name of the branch to clone.
 
-Download and run the *check* script:
-
->wget http://gmarciani.com/workspace/debs-2016/script/check.sh
-
->chmod +x check.sh
+Finally run the *check* script:
 
 >./check.sh {vbox|aws}
 
@@ -158,20 +152,20 @@ Launch the app, running:
 
 where *FRNDS* is the friendships data source, *POSTS* is the posts data source, *CMNTS* is the comments data source, *LIKES* is the likes data source, *K* is the rank size for the 2nd query, *D* is the delay for the 2nd query, and *CONF* is the optional YAML configuration file (i.e. /config/app-config.yaml). Notice that only relative paths are accepted.
 
-Alternatively, launch the app, running:
+For test and debugging, launch the app, running:
 
->./run.sh DATA K D (CONF)
+>./exec.sh DATA K D (CONF)
 
 where *DATA* is the folder containing the dataset (friendships.dat, posts.dat, comments.dat and likes.dat), *K* is the rank size for the 2nd query, *D* is the delay for the 2nd query, and *CONF* is the optional YAML configuration file (i.e. /config/app-config.yaml).
 
-Note that: the script *run* is responsible of start/stop Apache Flink; you do not need to start/stop it manually.
+Note that: the scripts *run* and *exec* is responsible of start/stop Apache Flink; you do not need to start/stop it manually.
 
 ## Configure an AWS EC2 instance
 Run the *AWS configuration* script
 
 >./aws.sh configure EC2 (PEM-KEY)
 
-where *EC2* is the public DNS of your AWS EC2 instance, and *PEM-KEY* is the .pem file used to establish the SSH connection. By default, the script looks for the key stored in $HOME/.ssh/debs.pem.
+where *EC2* is the public DNS of your AWS EC2 instance, and *PEM-KEY* is the .pem file used to establish the SSH connection. By default, the script looks for the key stored in $HOME/.ssh/sostream.pem.
 
 After the script execution, your EC2 instance is ready for code deployment.
 
@@ -181,7 +175,7 @@ Run the *AWS configuration* script
 
 >./aws.sh deploy EC2 (PEM-KEY)
 
-where *EC2* is the public DNS of a configured AWS EC2 instance, and *PEM-KEY* is the .pem file used to establish the SSH connection. By default, the script looks for the key stored in $HOME/.ssh/debs.pem.
+where *EC2* is the public DNS of a configured AWS EC2 instance, and *PEM-KEY* is the .pem file used to establish the SSH connection. By default, the script looks for the key stored in $HOME/.ssh/sostream.pem.
 
 After the script execution the project in AWS is in-sync with your local project. It is suggested to run the *check* script on your EC2 instance, to verify that everything is ok. Now you can run the app as usual with the *run* script.
 

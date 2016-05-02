@@ -2,17 +2,21 @@
   <modelVersion>4.0.0</modelVersion>
   
 	<groupId>com.threecore</groupId>
-  	<artifactId>debs</artifactId>
+  	<artifactId>sostream</artifactId>
   	<version>1.0.0</version>
   	<packaging>jar</packaging>
   
-  	<name>ACM DEBS Grand Challenge 2016</name>
-  	<description>The software solution for the ACM DEBS Grand Challenge 2016</description>
-  	<url>https://bitbucket.org/3-core/acm-debs-2016-solution</url>
+  	<name>ACM DEBS 2016 Grand Challenge</name>
+  	<description>
+		Data stream processing application for real-time analysis of social networks,
+		based on the Apache Flink framework.
+		Selected as a finalist in the ACM DEBS 2016 Grand Challenge
+	</description>
+  	<url>http://3cores.github.io/sostream</url>
   
   	<organization>
-		<name>3Core Inc.</name>
-		<url>https://bitbucket.org/3-core</url>
+		<name>3Cores</name>
+		<url>https://github.com/3Cores</url>
 	</organization>
 	
 	<developers>
@@ -371,7 +375,6 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${mvn.plugin.jar.version}</version>
 				<configuration>
-					<classifier>${debs.query.name}</classifier>
 					<archive>
 						<manifestEntries>
 							<Main-Class>${apache.flink.entry}</Main-Class>

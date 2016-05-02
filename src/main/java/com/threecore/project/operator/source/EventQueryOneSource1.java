@@ -201,7 +201,7 @@ public class EventQueryOneSource1 extends RichSourceFunction<EventQueryOne> {
 		ctx.collect(event);
 		this.tuple++;
 	}
-	
+	/*
 	private long start = 0;
 	
 	@Override
@@ -217,5 +217,6 @@ public class EventQueryOneSource1 extends RichSourceFunction<EventQueryOne> {
 		writer.flush();
 		writer.close();
 	}
+	*/
 
 }

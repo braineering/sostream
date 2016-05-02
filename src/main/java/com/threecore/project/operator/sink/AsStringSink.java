@@ -51,7 +51,7 @@ public class AsStringSink<T extends Stringable> extends RichSinkFunction<T> {
 	public void close() throws IOException {
 		this.writer.flush();
 		this.writer.close();		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("tuples.txt")));
+		/*BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("tuples.txt")));
 		
 		long tuples = 0;
 		long start = 0;
@@ -81,6 +81,7 @@ public class AsStringSink<T extends Stringable> extends RichSinkFunction<T> {
 		writer.close();
 		
 		System.exit(0);
+		*/
 		
 	}
 

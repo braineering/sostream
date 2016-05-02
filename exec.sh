@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #**************************************************************************************************
-# APP RUN
+# APP DEBUG EXECUTION
 #
 # PRODUCTION USE
 # $1 [frnds]: relative path to friendships data source
@@ -30,7 +30,6 @@ function init {
 	PERFMC_FILE="$RESULT_DIR/performance.txt"
 	LOGGER_FILE="$RESULT_DIR/log.txt"
 
-	#QUERIES=("q1" "q2") #FOR PRODUCTION
 	QUERIES=$(for f in $(ls query/*.jar); do _file="$(basename $f)"; echo ${_file%.*}; done;)
 
 	DATA_DIR=""

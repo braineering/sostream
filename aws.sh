@@ -30,7 +30,7 @@ function init {
 
 	_CMD=$1
 	_EC2=$2
-	_PEM="/home/$USER/.ssh/debs.pem"
+	_PEM="/home/$USER/.ssh/sostream.pem"
 	_LDIR="."
 	_RDIR="/home/${_USR}/project"
 	_EXCL="${_WSDIR}/vm/script/rsync-ignore"
@@ -59,7 +59,7 @@ function deinit {
 # CONFIGURE
 #**************************************************************************************************
 function configureEC2 {
-	_BASE_URL="http://gmarciani.com/workspace/debs-2016/script"
+	_BASE_URL="http://gmarciani.com/workspace/sostream/script"
 	_SCRIPTS=("configure-env.sh" "configure-app.sh" "check.sh")
 
 	for _script in ${_SCRIPTS[@]}; do
@@ -84,7 +84,7 @@ function synchronizeAppOnEC2 {
 #**************************************************************************************************
 function deployAppOnEC2 {
 	rsync -rave "ssh -i ${_PEM}" --exclude-from "${_EXCL}" "${_LDIR}" ${_USR}@${_EC2}:"${_RDIR}"
-	ssh -i "${_PEM}" ${_USR}@${_EC2} "wget http://gmarciani.com/workspace/debs-2016/script/{configure-env.sh,configure-app.sh,check.sh}"
+	ssh -i "${_PEM}" ${_USR}@${_EC2} "wget http://gmarciani.com/workspace/sostream/script/{configure-env.sh,configure-app.sh,check.sh}"
 	ssh -i "${_PEM}" ${_USR}@${_EC2} "chmod +x configure-env.sh configure-app.sh check.sh"
 	ssh -i "${_PEM}" ${_USR}@${_EC2} "bash \$HOME/configure-app.sh local"
 }

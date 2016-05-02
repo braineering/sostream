@@ -14,27 +14,12 @@ import com.threecore.project.model.ModelCommons;
 import com.threecore.project.model.Post;
 import com.threecore.project.model.conf.AppConfiguration;
 import com.threecore.project.operator.source.EventPostCommentSource;
-import com.threecore.project.operator.source.EventPostCommentSource2;
 import com.threecore.project.operator.source.EventQueryOneSource1;
 import com.threecore.project.operator.time.AscendingTimestamper;
-import com.threecore.project.operator.time.CustomTimestamper;
-import com.threecore.project.operator.time.Timestamper;
 
 public class EventPostCommentStreamgen {
 	
 	public static final DateTime START = new DateTime(2016, 1, 1, 12, 0, 0, 0);
-	
-	public static DataStream<EventPostComment> getStreamOfEvents(StreamExecutionEnvironment env, AppConfiguration config) {
-		DataStream<EventPostComment> events = env.addSource(new EventPostCommentSource(config.getPosts(), config.getComments()), "events-pc-source");
-		events.assignTimestampsAndWatermarks(new AscendingTimestamper<EventPostComment>());		
-		return events;
-	}
-	
-	public static DataStream<EventPostComment> getStreamOfEvents2(StreamExecutionEnvironment env, AppConfiguration config) {
-		DataStream<EventPostComment> events = env.addSource(new EventPostCommentSource2(config.getPosts(), config.getComments()), "events-pc-source");
-		events.assignTimestampsAndWatermarks(new AscendingTimestamper<EventPostComment>());		
-		return events;
-	}
 	
 	public static DataStream<EventQueryOne> getStreamOfEvents4(StreamExecutionEnvironment env, AppConfiguration config) {
 		DataStream<EventQueryOne> events = env.addSource(new EventQueryOneSource1(config.getPosts(), config.getComments()), "events-pc-source");
