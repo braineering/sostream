@@ -353,7 +353,8 @@ SSH_AUTHORIZED_KEYS_FILE="$SSH_DIR/authorized_keys"
 
 function checkSSHGithub {
     SSH_DEPLOY_KEY_MATCH="Hi 3Cores"
-    if [[ $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
+
+    if [ "$(echo "$(ssh -T -oStrictHostKeyChecking=no git@github.com 2>&1)" | grep -o "$SSH_DEPLOY_KEY_MATCH")" ]; then
         echo "[DEBS]> CHECK: SSH: ensured read access to repo"
     else
         echo "[DEBS]> CHECK: SSH: 1 problem(s) found: cannot read Github repo"

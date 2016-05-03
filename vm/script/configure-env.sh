@@ -386,8 +386,8 @@ function configureSSHGithub {
     
     SSH_CONFIG="Host github.com\n\tIdentityFile $SSH_GITHUB_KEY"
 
-    if [[ $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
-        echo "[DEBS]> CONFIGURE-ENV: cannot read Github repo"
+   if [ "$(echo "$(ssh -T -oStrictHostKeyChecking=no git@github.com 2>&1)" | grep -o "$SSH_DEPLOY_KEY_MATCH")" ]; then
+        echo "[DEBS]> CHECK: SSH: ensured read access to repo"
     else
         echo "[DEBS]> CONFIGURE-ENV: configuring SSH ..."
 
@@ -406,7 +406,7 @@ function configureSSHGithub {
         echo -e $SSH_CONFIG >> $SSH_CONFIG_FILE
 
         ATTEMPTS=1
-        while [[ ! $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]] && [ ATTEMPTS -le 3 ]; do
+        while [[ ! "$(echo "$(ssh -T -oStrictHostKeyChecking=no git@github.com 2>&1)" | grep -o "$SSH_DEPLOY_KEY_MATCH")" ]] && [ ATTEMPTS -le 3 ]; do
             echo "[DEBS]> CONFIGURE-ENV: waiting for connection (attempt $ATTEMPTS) ..."
             sleep 1
             ATTEMPTS=$((ATTEMPTS + 1))
@@ -419,6 +419,7 @@ function configureSSHGithub {
 
         echo "[DEBS]> CONFIGURE-ENV: SSH configured"
     fi
+    unset _ssh
 }
 
 #**************************************************************************************************

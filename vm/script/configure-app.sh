@@ -63,7 +63,7 @@ function deinit {
 function checkGithub {
     SSH_DEPLOY_KEY_MATCH="Hi 3Cores"
 
-    if [[ ! $(ssh -T -oStrictHostKeyChecking=no git@github.com | grep "$SSH_DEPLOY_KEY_MATCH") ]]; then
+    if [ ! "$(echo "$(ssh -T -oStrictHostKeyChecking=no git@github.com 2>&1)" | grep -o "$SSH_DEPLOY_KEY_MATCH")" ]; then
         echo "[DEBS]> CONFIGURE-APP: cannot read Github repo. Please, run again configure-env.sh $SRC $BRANCH"
         exit -1
     fi
