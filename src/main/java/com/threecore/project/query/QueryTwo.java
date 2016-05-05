@@ -39,7 +39,7 @@ public class QueryTwo {
 		
 		EnvConfigurator.initializeRedis(config.getRedisHostname(), config.getRedisPort());
 		
-		DataStream<EventCommentFriendshipLike> events = EventCommentFriendshipLikeStreamgen.getEvents(env, config);
+		DataStream<EventCommentFriendshipLike> events = EventCommentFriendshipLikeStreamgen.getStreamOfEvents(env, config);
 		
 		SplitStream<EventCommentFriendshipLike> splitted = events.split(new FriendshipSplitter());
 		

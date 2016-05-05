@@ -39,7 +39,7 @@ public class QueryOne {
 		
 		final StreamExecutionEnvironment env = EnvConfigurator.setupExecutionEnvironment(config);
 
-		DataStream<EventQueryOne> events = EventPostCommentStreamgen.getStreamOfEvents4(env, config);
+		DataStream<EventQueryOne> events = EventPostCommentStreamgen.getStreamOfEvents(env, config);
 		
 		ConnectedIterativeStreams<EventQueryOne, BucketId> eventsIter = events.iterate(config.getIterationTimeout()).withFeedbackType(BucketId.class);
 		

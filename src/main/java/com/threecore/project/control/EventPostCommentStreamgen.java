@@ -21,8 +21,13 @@ public class EventPostCommentStreamgen {
 	
 	public static final DateTime START = new DateTime(2016, 1, 1, 12, 0, 0, 0);
 	
-	public static DataStream<EventQueryOne> getStreamOfEvents4(StreamExecutionEnvironment env, AppConfiguration config) {
-		DataStream<EventQueryOne> events = env.addSource(new EventQueryOneSource1(config.getPosts(), config.getComments()), "events-pc-source");
+	public static DataStream<EventQueryOne> getStreamOfEvents(StreamExecutionEnvironment env, AppConfiguration config) {
+		String posts = config.getPosts();
+		String comments = config.getComments();
+
+		DataStream<EventQueryOne> events = env.addSource(
+				new EventQueryOneSource1(posts, comments),
+				"events-pc-source");
 		//events.assignTimestampsAndWatermarks(new CustomTimestamper<EventQueryOne>());
 		//events.assignTimestampsAndWatermarks(new AscendingTimestamper<EventQueryOne>());
 		//events.assignTimestampsAndWatermarks(new Timestamper<EventQueryOne>());

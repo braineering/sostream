@@ -17,7 +17,18 @@ import com.threecore.project.operator.source.EventCommentFriendshipLikeSource;
 import com.threecore.project.operator.time.AscendingTimestamper;
 
 public class EventCommentFriendshipLikeStreamgen {
-	
+
+	public static DataStream<EventCommentFriendshipLike> getStreamOfEvents(StreamExecutionEnvironment env, AppConfiguration config) {
+		String comments = config.getComments();
+		String friendships = config.getFriendships();
+		String likes = config.getLikes();
+
+		DataStream<EventCommentFriendshipLike> events = env.addSource(
+				new EventCommentFriendshipLikeSource(comments, friendships, likes),
+				"events-cfl-source");
+		return events;
+	}
+
 	public static final DateTime START = new DateTime(2016, 1, 1, 12, 0, 0, 0);
 	
 	public static DataStream<EventCommentFriendshipLike> getEvents(StreamExecutionEnvironment env, AppConfiguration config) {

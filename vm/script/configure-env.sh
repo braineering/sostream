@@ -17,7 +17,7 @@ function init {
 
     ENVIRONMENT=$1
 
-    if [ "$ENVIRONMENT" == "vbox" ]; then 
+    if [ "$ENVIRONMENT" == "vbox" ]; then
         echo "[DEBS]> CONFIGURE-ENV: VirtualBox environment selected"
         USR=debs
     elif [ "$ENVIRONMENT" == "aws" ]; then
@@ -150,7 +150,7 @@ function installJava {
     if type -p $JAVA; then
         echo "[DEBS]> CONFIGURE-ENV: OPT: JAVA: ($JAVA) found in PATH"
     elif [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/$JAVA" ];  then
-        echo "[DEBS]> CONFIGURE-ENV: OPT: JAVA: ($JAVA) found in JAVA_HOME"     
+        echo "[DEBS]> CONFIGURE-ENV: OPT: JAVA: ($JAVA) found in JAVA_HOME"
         JAVA="$JAVA_HOME/bin/$JAVA"
     else
         echo "[DEBS]> CONFIGURE-ENV: OPT: JAVA: ($JAVA) not found"
@@ -182,9 +182,9 @@ function installMaven {
 
     if type -p $MAVEN; then
         echo "[DEBS]> CONFIGURE-ENV: OPT: MAVEN: ($MAVEN) found in PATH"
-    elif [ -n "$MAVEN_HOME" ] && 
+    elif [ -n "$MAVEN_HOME" ] &&
          [ -x "$MAVEN_HOME/bin/$MAVEN" ];  then
-        echo "[DEBS]> CONFIGURE-ENV: OPT: MAVEN: ($MAVEN) found in MAVEN_HOME"  
+        echo "[DEBS]> CONFIGURE-ENV: OPT: MAVEN: ($MAVEN) found in MAVEN_HOME"
         MAVEN="$MAVEN_HOME/bin/$MAVEN"
     else
         echo "[DEBS]> CONFIGURE-ENV: OPT: MAVEN: ($MAVEN) not found"
@@ -206,7 +206,7 @@ function installMaven {
 #**************************************************************************************************
 function installFlink {
     FLINK=flink
-    FLINK_CLUSTER_START=start-local.sh 
+    FLINK_CLUSTER_START=start-local.sh
     FLINK_CLUSTER_STOP=stop-local.sh
     FLINK_VERSION_RQST=2.10-1.0.0
     FLINK_URL="http://it.apache.contactlab.it/flink/flink-1.0.0/flink-1.0.0-bin-hadoop1-scala_2.10.tgz"
@@ -216,11 +216,11 @@ function installFlink {
 
     if type -p $FLINK; then
         echo "[DEBS]> CONFIGURE-ENV: OPT: FLINK: ($FLINK, $FLINK_CLUSTER_START $FLINK_CLUSTER_STOP) found in PATH"
-    elif [ -n "$FLINK_HOME" ] && 
+    elif [ -n "$FLINK_HOME" ] &&
          [ -x "$FLINK_HOME/bin/$FLINK" ] &&
          [ -x "$FLINK_HOME/bin/$FLINK_CLUSTER_START" ] &&
          [ -x "$FLINK_HOME/bin/$FLINK_CLUSTER_STOP" ]; then
-        echo "[DEBS]> CONFIGURE-ENV: OPT: FLINK: ($FLINK, $FLINK_CLUSTER_START $FLINK_CLUSTER_STOP) found in FLINK_HOME"     
+        echo "[DEBS]> CONFIGURE-ENV: OPT: FLINK: ($FLINK, $FLINK_CLUSTER_START $FLINK_CLUSTER_STOP) found in FLINK_HOME"
         FLINK="$FLINK_HOME/bin/$FLINK"
         FLINK_CLUSTER_START="$FLINK_HOME/bin/$FLINK_CLUSTER_START"
         FLINK_CLUSTER_STOP="$FLINK_HOME/bin/$FLINK_CLUSTER_STOP"
@@ -237,7 +237,7 @@ function installFlink {
         sudo mv $FLINK_UNTAR $APACHE_DIR/$FLINK_DIR
         sudo update-alternatives --install /usr/bin/flink flink $APACHE_DIR/$FLINK_DIR/bin/flink 100
 
-        cp "${APACHE_DIR}/${FLINK_DIR}/conf/flink-conf.yaml" "${APACHE_DIR}/${FLINK_DIR}/conf/flink-conf-default.yaml" 
+        cp "${APACHE_DIR}/${FLINK_DIR}/conf/flink-conf.yaml" "${APACHE_DIR}/${FLINK_DIR}/conf/flink-conf-default.yaml"
     fi
 }
 
@@ -246,23 +246,23 @@ function installFlink {
 #**************************************************************************************************
 function installRedis {
     REDIS_SERVER=redis-server
-    REDIS_CLIENT=redis-cli    
+    REDIS_CLIENT=redis-cli
     REDIS_VERSION_RQST=3.0.7
     REDIS_URL="http://download.redis.io/releases/redis-3.0.7.tar.gz"
     REDIS_TAR="redis-3.0.7.tar.gz"
     REDIS_UNTAR="redis-3.0.7"
     REDIS_DIR="redis-v3.0.7"
 
-    if type -p $REDIS_SERVER && type -p $REDIS_CLIENT && 
+    if type -p $REDIS_SERVER && type -p $REDIS_CLIENT &&
         [ -x "/etc/init.d/redis_6379" ]; then
         echo "[DEBS]> CONFIGURE-ENV: OPT: REDIS: ($REDIS_SERVER, $REDIS_CLIENT) found in PATH"
-    elif [ -n "$REDIS_HOME" ] && 
+    elif [ -n "$REDIS_HOME" ] &&
          [ -x "$REDIS_HOME/bin/$REDIS_SERVER" ] &&
          [ -x "$REDIS_HOME/bin/$REDIS_CLIENT" ] &&
          [ -x "/etc/init.d/redis_6379" ]; then
-        echo "[DEBS]> CONFIGURE-ENV: OPT: REDIS: ($REDIS_SERVER, $REDIS_CLIENT) found in REDIS_HOME"     
+        echo "[DEBS]> CONFIGURE-ENV: OPT: REDIS: ($REDIS_SERVER, $REDIS_CLIENT) found in REDIS_HOME"
         REDIS_SERVER="$REDIS_HOME/bin/$REDIS_SERVER"
-        REDIS_CLIENT="$REDIS_HOME/bin/$REDIS_CLIENT"        
+        REDIS_CLIENT="$REDIS_HOME/bin/$REDIS_CLIENT"
     else
         echo "[DEBS]> CONFIGURE-ENV: OPT: REDIS: ($REDIS_SERVER, $REDIS_CLIENT) not found"
 
@@ -278,7 +278,7 @@ function installRedis {
         make
         make PREFIX=$REDISLAB_DIR/$REDIS_DIR install
         make test
-        sudo bash $REDISLAB_DIR/$REDIS_DIR/utils/install_server.sh            
+        sudo bash $REDISLAB_DIR/$REDIS_DIR/utils/install_server.sh
         cd $WSDIR
     fi
 }
@@ -287,7 +287,7 @@ function installRedis {
 # DATASET
 #**************************************************************************************************
 function downloadDataset {
-    DATASET_URL="https://s3-eu-west-1.amazonaws.com/3cores/sostream/dataset/dataset.tar.gz"
+    DATASET_URL="https://s3-eu-west-1.amazonaws.com/3cores/sostream/data/dataset.tar.gz"
     DATASET_SRC="dataset.tar.gz"
     DATASET_DST="$HOME/dataset"
 
@@ -305,7 +305,7 @@ function addMembership {
     for GRP in "$@"; do
         if [ ! [ $(groups $USR | grep "\b$GRP\b") ]]; then
             sudo gpasswd -a $USR $GRP
-        fi    
+        fi
     done
 }
 
@@ -357,7 +357,7 @@ function configureSSHDevelopers {
     if [ ! -d $SSH_DIR ]; then
         mkdir $SSH_DIR
     fi
-    
+
     wget $SSH_LOCALHOST_KEY_URL -O $SSH_LOCALHOST_KEY_FILE
     chmod 0400 $SSH_LOCALHOST_KEY_FILE
     cat $SSH_LOCALHOST_KEY_FILE >> $SSH_AUTHORIZED_KEYS_FILE
@@ -371,7 +371,7 @@ function configureSSHDEBS {
     if [ ! -d $SSH_DIR ]; then
         mkdir $SSH_DIR
     fi
-    
+
     wget $SSH_DEBS_KEY_URL -O $SSH_DEBS_KEY_FILE
     chmod 0400 $SSH_DEBS_KEY_FILE
     cat $SSH_DEBS_KEY_FILE >> $SSH_AUTHORIZED_KEYS_FILE
@@ -383,7 +383,7 @@ function configureSSHGithub {
     SSH_GITHUB_KEY_URL="http://gmarciani.com/workspace/sostream/ssh/$SSH_GITHUB_KEY_NAME"
     SSH_DEPLOY_GIT_REPO="git@github.com:3Cores/sostream"
     SSH_DEPLOY_KEY_MATCH="Hi 3Cores"
-    
+
     SSH_CONFIG="Host github.com\n\tIdentityFile $SSH_GITHUB_KEY"
 
    if [ "$(echo "$(ssh -T -oStrictHostKeyChecking=no git@github.com 2>&1)" | grep -o "$SSH_DEPLOY_KEY_MATCH")" ]; then
@@ -489,7 +489,7 @@ echo "[DEBS]> CONFIGURE-ENV: USER: rights for user $USR set up"
 
 initSSH
 
-if [ "$ENVIRONMENT" == "vbox" ]; then    
+if [ "$ENVIRONMENT" == "vbox" ]; then
     echo "[DEBS]> CONFIGURE-ENV: configuring SSH for developers access ..."
     configureSSHDevelopers
     echo "[DEBS]> CONFIGURE-ENV: SSH for developers access configured"
@@ -520,7 +520,7 @@ if [ "$ENVIRONMENT" == "vbox" ]; then
     echo "[DEBS]> CONFIGURE-ENV: SYSTEM: rebooting ..."
     rebootSystem
 elif [ "$ENVIRONMENT" == "aws" ]; then
-    echo "[DEBS]> CONFIGURE-ENV: SYSTEM: please reboot your system" 
+    echo "[DEBS]> CONFIGURE-ENV: SYSTEM: please reboot your system"
 fi
 
 deinit
