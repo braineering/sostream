@@ -40,15 +40,15 @@ function init {
 	K=""
 	D=""
 	CONFG=""
-	
+
 	PARALLELISM=4
 
 	FLINK=flink
 	FLINK_START="$FLINK_HOME/bin/start-local.sh"
-	FLINK_STOP="$FLINK_HOME/bin/stop-local.sh"	
+	FLINK_STOP="$FLINK_HOME/bin/stop-local.sh"
 
 	if [ "$#" == 3 ] || [ "$#" == 4 ]; then
-		DATA_DIR="$WSDIR/$1"		
+		DATA_DIR="$WSDIR/$1"
 	elif [ "$#" == 6 ] || [ "$#" == 7 ]; then
 		DATA_DIR="$WSDIR"
 	else
@@ -141,7 +141,7 @@ function init {
 		unset Q_PERFMC_FILE
 		unset Q_LOGGER_FILE
 	done
-	
+
 	PRBLMS_TOT=0
 
 	function totalCheckResult {
@@ -178,13 +178,14 @@ function deinit {
 
 	unset FLINK
 	unset FLINK_START
-	unset FLINK_STOP	
+	unset FLINK_STOP
 }
 
 #**************************************************************************************************
 # EXECUTION
 #**************************************************************************************************
 function runQueries {
+	_MEMREC_SCRIPT="${WSDIR}/memrec.sh"
 	for Q in "$@"; do
 		Q_JAR="$QUERY_DIR/$Q.jar"
 		if [ ! -r $Q_JAR ]; then
@@ -199,16 +200,15 @@ function runQueries {
 		echo "[DEBS]> RUN: environment started"
 
 		echo "[DEBS]> RUN: EXECUTE: submitting $Q ..."
-		if [ $CONFG ]; then
-			$FLINK run $Q_JAR $FRIENDSHIPS $POSTS $COMMENTS $LIKES $K $D $OUTPUT_DIR -C $CONFG
-		else
-			$FLINK run $Q_JAR $FRIENDSHIPS $POSTS $COMMENTS $LIKES $K $D $OUTPUT_DIR -P$PARALLELISM
-		fi
+		bash ${_MEMREC_SCRIPT} &
+		_MEMREC_PID=$!
+		$FLINK run $Q_JAR $FRIENDSHIPS $POSTS $COMMENTS $LIKES $K $D $OUTPUT_DIR -P$PARALLELISM
+		kill ${_MEMREC_PID}
 
 		echo "[DEBS]> RUN: stopping environment for query $Q..."
 		stopEnvironment
 		echo "[DEBS]> RUN: environment stopped"
-		
+
 		unset Q_JAR
 	done
 }
@@ -245,7 +245,7 @@ function writeResults {
 
 	for Q in "$@"; do
 		echo "[DEBS]> RUN: writing output of $Q"
-		Q_OUT_FILE="$OUTPUT_DIR/$Q/out.txt"	
+		Q_OUT_FILE="$OUTPUT_DIR/$Q/out.txt"
 		if [ ! -r $Q_OUT_FILE ]; then
 			echo "[DEBS]> RUN: cannot read output of $Q ($Q_OUT_FILE)"
 			echo "[DEBS]> RUN: skipping $Q"
@@ -264,7 +264,7 @@ function writeResults {
 			PRBLMS_TOT=$(($PRBLMS_TOT + 1))
 		else
 			Q_PERFMC_CONTENT=$(cat $Q_PERFMC_FILE)
-			echo "$Q_PERFMC_CONTENT " >> $PERFMC_FILE 
+			echo "$Q_PERFMC_CONTENT " >> $PERFMC_FILE
 			echo "[DEBS]> RUN: performance of $Q written in $PERFMC_FILE"
 		fi
 
@@ -276,9 +276,9 @@ function writeResults {
 			PRBLMS_TOT=$(($PRBLMS_TOT + 1))
 		else
 			Q_LOGGER_CONTENT=$(cat $Q_LOGGER_FILE)
-			echo -e "### START OF LOG FOR QUERY: $Q ###\n\n" >> $LOGGER_FILE 
-			echo "$Q_LOGGER_CONTENT " >> $LOGGER_FILE 
-			echo -e "\n\n### END OF LOG FOR QUERY: $Q ###\n\n" >> $LOGGER_FILE 
+			echo -e "### START OF LOG FOR QUERY: $Q ###\n\n" >> $LOGGER_FILE
+			echo "$Q_LOGGER_CONTENT " >> $LOGGER_FILE
+			echo -e "\n\n### END OF LOG FOR QUERY: $Q ###\n\n" >> $LOGGER_FILE
 			echo "[DEBS]> RUN: log of $Q written in $LOGGER_FILE"
 		fi
 		unset Q_OUT_FILE
@@ -299,9 +299,9 @@ function stopAllFlink {
 	done
 }
 
-function startFlink {	
+function startFlink {
 	echo "[DEBS]> RUN: starting Apache Flink ..."
-	while [[ ! $(bash $FLINK_START | grep "Starting jobmanager daemon on host") ]]; do 
+	while [[ ! $(bash $FLINK_START | grep "Starting jobmanager daemon on host") ]]; do
 		echo "restarting Flink ..."
 		stopAllFlink
 	done
@@ -309,9 +309,9 @@ function startFlink {
 
 function flushAllRedis {
 	echo "[DEBS]> RUN: starting Redis ..."
-	while [[ "$(redis-cli dbsize)" != 0 ]]; do 
-		echo "[DEBS]> RUN: flushing Redis ..." 
-		if [[ "$(redis-cli flushall)" != "OK" ]]; then 
+	while [[ "$(redis-cli dbsize)" != 0 ]]; do
+		echo "[DEBS]> RUN: flushing Redis ..."
+		if [[ "$(redis-cli flushall)" != "OK" ]]; then
 			echo "[DEBS]> RUN: error while flushing Redis"
 			exit -1
 		else
