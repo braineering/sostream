@@ -32,53 +32,53 @@ import com.threecore.project.operator.score.post.PostScoreUpdater2;
 public class QueryOne {
 
 	private static final String JOB_NAME = "q1";
-	
-	public static void main(String[] args) throws Exception {		
-		
+
+	public static void main(String[] args) throws Exception {
+
 		final AppConfiguration config = AppConfigurator.loadConfiguration(args);
-		
+
 		final StreamExecutionEnvironment env = EnvConfigurator.setupExecutionEnvironment(config);
 
 		DataStream<EventQueryOne> events = EventPostCommentStreamgen.getStreamOfEvents(env, config);
-		
-		ConnectedIterativeStreams<EventQueryOne, BucketId> eventsIter = events.iterate(config.getIterationTimeout()).withFeedbackType(BucketId.class);
-		
+
+		ConnectedIterativeStreams<EventQueryOne, BucketId> eventsIter = events.iterate().withFeedbackType(BucketId.class);
+
 		DataStream<EventQueryOne> mapped = eventsIter.flatMap(new ActiveEventPostCommentMapper3()).setParallelism(1);
-		
+
 		DataStream<Long> timeUpdate = mapped.map(new EventPostCommentTimestamper2()).setParallelism(1).broadcast();
-		
-		DataStream<EventQueryOne> main = mapped.keyBy(new EventPostCommentKeyer2());	
-		
+
+		DataStream<EventQueryOne> main = mapped.keyBy(new EventPostCommentKeyer2());
+
 		ConnectedStreams<EventQueryOne, Long> syncMain = main.connect(timeUpdate);
-		
+
 		DataStream<PostScore> updates = syncMain.flatMap(new PostScoreUpdater2()).setParallelism(config.getParallelism());
-		
+
 		DataStream<PostScore> scores = updates.keyBy(new PostScoreKeyer()).reduce(new PostScoreAggregator()).setParallelism(config.getParallelism());
-		
+
 		SplitStream<PostScore> splitScores = scores.split(new PostScoreSplitter());
-		
+
 		DataStream<BucketId> inactivePosts = splitScores.select(PostScoreSplitter.SCORE_INACTIVE).flatMap(new PostScoreIdExtractorBucket());
-		
+
 		eventsIter.closeWith(inactivePosts);
-		
-		DataStream<PostScore> scoresMain = splitScores.select(PostScoreSplitter.SCORE_ALL);	
-		
+
+		DataStream<PostScore> scoresMain = splitScores.select(PostScoreSplitter.SCORE_ALL);
+
 		DataStream<PostRank> bests = scoresMain.keyBy(new PostScoreKeyer()).flatMap(new PostRankerSort()).setParallelism(config.getParallelism());
-		
+
 		DataStream<PostRank> tops = null;
-		
+
 		if (config.getParallelism() == 1) {
 			tops = bests;
 		} else {
 			tops = bests.flatMap(new PostRankMergerSort()).setParallelism(1);
-		}		
+		}
 
-		DataStream<PostRank> newtops = tops.filter(new PostRankUpdateFilter()).setParallelism(1);		
+		DataStream<PostRank> newtops = tops.filter(new PostRankUpdateFilter()).setParallelism(1);
 
-		newtops.addSink(new AsStringSink<PostRank>(config.getSinkPath(JOB_NAME), config.getSinkBufferSize()));	
-		
+		newtops.addSink(new AsStringSink<PostRank>(config.getSinkPath(JOB_NAME), config.getSinkBufferSize()));
+
 		JobExecutionResult res = env.execute(JOB_NAME);
-		
+
 		PerformanceWriter.write(res, config.getPerformancePath(JOB_NAME));
 	}
 
